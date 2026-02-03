@@ -16,7 +16,7 @@ setup(
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='zhenghao.li',
-    maintainer_email='lizhenghao@shanghaotech.edu.cn',
+    maintainer_email='lizhenghao@shanghaitech.edu.cn',
     description='Communication with motors',
     license='Apache License 2.0',
     tests_require=['pytest'],
