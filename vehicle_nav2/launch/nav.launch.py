@@ -1,4 +1,4 @@
-# your_robot_nav2/launch/nav2_minimal.launch.py
+# vehicle_nav2/launch/nav2.launch.py
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
@@ -8,7 +8,7 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     # 获取配置路径
-    pkg_dir = get_package_share_directory('your_robot_nav2')
+    pkg_dir = get_package_share_directory('vehicle_nav2')
     map_file = os.path.join(pkg_dir, 'maps', 'my_map.yaml')
     params_file = os.path.join(pkg_dir, 'config', 'nav2.yaml')
 
@@ -93,12 +93,12 @@ def generate_launch_description():
         ),
 
         # RViz 可视化（可选，真机可注释掉）
-        Node(
-            package='rviz2',
-            executable='rviz2',
-            name='rviz2',
-            arguments=['-d', os.path.join(pkg_dir, 'config', 'nav2.rviz')],
-            output='screen',
-            condition=condition=IfCondition('False')
-        )
+        #Node(
+        #    package='rviz2',
+        #    executable='rviz2',
+        #    name='rviz2',
+        #    arguments=['-d', os.path.join(pkg_dir, 'config', 'nav2.rviz')],
+        #    output='screen',
+        #    condition=IfCondition('False')
+        #)
     ])
