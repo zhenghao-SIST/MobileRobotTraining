@@ -9,7 +9,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
     # 获取配置路径
     pkg_dir = get_package_share_directory('vehicle_nav2')
-    map_file = os.path.join(pkg_dir, 'maps', 'my_map.yaml')
+    map_file = os.path.join(pkg_dir, 'maps', 'map_101.yaml')
     params_file = os.path.join(pkg_dir, 'config', 'nav2.yaml')
 
     # 声明 use_sim_time（真机设为 false）
