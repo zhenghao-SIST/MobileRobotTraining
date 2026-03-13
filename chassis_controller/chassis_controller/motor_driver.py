@@ -40,6 +40,7 @@ class Driver():
 
         time.sleep(0.5)
         self.init_device(0x01)
+        time.sleep(0.5)
         self.init_device(0x02)
         time.sleep(0.5)
         self.thread_rd_run = 1

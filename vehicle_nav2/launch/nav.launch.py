@@ -11,6 +11,11 @@ def generate_launch_description():
     pkg_dir = get_package_share_directory('vehicle_nav2')
     map_file = os.path.join(pkg_dir, 'maps', 'map_101.yaml')
     params_file = os.path.join(pkg_dir, 'config', 'nav2.yaml')
+    bt_xml_path = os.path.join(
+        pkg_dir,
+        'config',
+        'my_bt.xml'
+    )
 
     # 声明 use_sim_time（真机设为 false）
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
@@ -71,7 +76,11 @@ def generate_launch_description():
             executable='bt_navigator',
             name='bt_navigator',
             output='screen',
-            parameters=[params_file]
+            parameters=[
+                params_file,
+                {'default_nav_through_poses_bt_xml': bt_xml_path},
+                {'default_nav_to_pose_bt_xml': bt_xml_path},
+                ]
         ),
 
         # 生命周期管理器（自动激活所有节点）

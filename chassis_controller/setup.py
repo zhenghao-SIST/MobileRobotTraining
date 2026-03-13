@@ -16,13 +16,14 @@ setup(
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='zhenghao.li',
-    maintainer_email='lizhenghao@shanghaitech.edu.cn',
+    maintainer_email='lizhenghao@shanghaotech.edu.cn',
     description='Communication with motors',
     license='Apache License 2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
             'chassis_controller = chassis_controller.controller_node:main',
+            'checker = chassis_controller.time_checker:main',
         ],
     },
 )

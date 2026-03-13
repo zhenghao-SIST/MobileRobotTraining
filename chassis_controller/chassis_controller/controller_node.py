@@ -117,8 +117,8 @@ class DiffDriveController(Node):
         # --- A. 获取速度数据 ---
         v_l, v_r = self.driver.get_speed()
 
-        v_l = float(v_l) * self.left_direction  / 60.0 * 2 * math.pi * self.wheel_radius / 19 
-        v_r = float(v_r) * self.right_direction / 60.0 * 2 * math.pi * self.wheel_radius / 16
+        v_l = float(v_l) * self.left_direction  / 60.0 * 2 * math.pi * self.wheel_radius / self.gear_ratio 
+        v_r = float(v_r) * self.right_direction / 60.0 * 2 * math.pi * self.wheel_radius / self.gear_ratio 
 
         # --- B. 差速运动学解算 ---
         v = (v_r + v_l) / 2.0             # 线速度
@@ -188,8 +188,8 @@ class DiffDriveController(Node):
             omega_left = v_left / self.wheel_radius
             omega_right = v_right / self.wheel_radius
 
-            RPM_left = int(omega_left / (2 * math.pi) * 60 * 19 * self.left_direction)
-            RPM_right = int(omega_right / (2 * math.pi) * 60 * 16 * self.right_direction)
+            RPM_left = int(omega_left / (2 * math.pi) * 60 * self.gear_ratio * self.left_direction)
+            RPM_right = int(omega_right / (2 * math.pi) * 60 * self.gear_ratio * self.right_direction)
             self.driver.set_speed(RPM_left, 0x01)
             self.driver.set_speed(RPM_right, 0x02)
             #self.driver.set_speed(RPM_right, 0x02)
