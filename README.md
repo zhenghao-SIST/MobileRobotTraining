@@ -36,7 +36,7 @@ rviz2 -d $(ros2 pkg prefix nav2_bringup)/share/nav2_bringup/rviz/nav2_default_vi
 
 ## Prerequsite
 ``` bash
-sudo apt install pythoh3-colcon-common-extensionssudo
+sudo apt install python3-colcon-common-extensions
 sudo apt install ros-humble-xacro
 sudo apt install ros-humble-joint-state-publisher-gui
 sudo apt install ros-humble-slam-toolbox
