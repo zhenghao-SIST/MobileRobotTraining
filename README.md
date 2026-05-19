@@ -11,7 +11,7 @@ ros2 launch vehicle_nav2 joy.launch.py
 #SLAM
 ros2 launch vehicle_nav2 slam.launch.py
 ```
-
+Push save map button on Rviz after setting a path for saving. For example: ~/map. This will save map.pgm and map.yaml to your home directory. After saving, move this two files to vehicle_nav2/map directory.  
 ## Navigation cmd
 ```bash
 #Laser and chassis
