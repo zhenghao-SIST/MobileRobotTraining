@@ -25,7 +25,7 @@ def generate_launch_description():
                     executable='static_transform_publisher',
                     name='base_link_to_laser',
                     arguments=[
-                        '--x', '0.22',
+                        '--x', '0.083',
                         '--y', '0.0',
                         '--z', '0.0',
                         '--yaw', '0.0',
@@ -42,11 +42,11 @@ def generate_launch_description():
             output='screen',
             parameters=[
                 {
-                    'wheel_base': 0.175,
-                    'wheel_radius': 0.045,
+                    'wheel_base': 0.218,
+                    'wheel_radius': 0.0325,
                     'left_direction': -1,
                     'right_direction': 1,
-                    'gear_ratio': 19
+                    'gear_ratio': 34 
                 }
             ]
     )
@@ -104,15 +104,15 @@ def generate_launch_description():
                          'scan_mode': scan_mode}],
             output='screen'),
 
-        Node(
-            package="laser_filters",
-            executable="scan_to_scan_filter_chain",
-            parameters=[
-                PathJoinSubstitution([
-                    get_package_share_directory("vehicle_nav2"),
-                    "config", "angular_filter_example.yaml",
-                ])],
-        )
+        #Node(
+         #   package="laser_filters",
+          #  executable="scan_to_scan_filter_chain",
+           # parameters=[
+            #    PathJoinSubstitution([
+             #       get_package_share_directory("vehicle_nav2"),
+              #      "config", "angular_filter_example.yaml",
+              #  ])],
+        #)
     ])
 
 

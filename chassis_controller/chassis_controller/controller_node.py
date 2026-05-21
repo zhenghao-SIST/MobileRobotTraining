@@ -26,12 +26,17 @@ class DiffDriveController(Node):
         self.declare_parameter('gear_ratio', 19)   # 轮子半径（v->omega）
         self.declare_parameter('left_direction', 1)   # 轮子半径（v->omega）
         self.declare_parameter('right_direction', 1)   # 轮子半径（v->omega）
+        self.declare_parameter('left_id', 0x02)   # 轮子半径（v->omega）
+        self.declare_parameter('right_id', 0x01)   # 轮子半径（v->omega）
 
         self.wheel_base = self.get_parameter('wheel_base').value
         self.wheel_radius = self.get_parameter('wheel_radius').value
         self.gear_ratio = self.get_parameter('gear_ratio').value
         self.left_direction = self.get_parameter('left_direction').value
         self.right_direction = self.get_parameter('right_direction').value
+        self.left_id= self.get_parameter('left_id').value
+        self.right_id = self.get_parameter('right_id').value
+        self.target_speed = [0, 0]
 
         # 订阅 cmd_vel
         self.subscription = self.create_subscription(
@@ -46,7 +51,7 @@ class DiffDriveController(Node):
         #    self.scan_cb,
         #    10
         #)
-        self.driver = Driver('/dev/Motor')
+        self.driver = Driver('/dev/Motor', [self.left_id, self.right_id])
 
         self.tf_broadcaster = tf2_ros.TransformBroadcaster(self)
 
@@ -88,7 +93,7 @@ class DiffDriveController(Node):
         self.tf_broadcaster.sendTransform(t)
 
         t = TransformStamped()
-        t.header.stamp = msg.header.stamp + rclpy.time.Duration(seconds=1.5)
+        t.header.stamp = msg.header.stamp# + rclpy.time.Duration(seconds=1.5)
         t.header.frame_id = 'base_link'
         t.child_frame_id = 'laser'
 
@@ -108,7 +113,7 @@ class DiffDriveController(Node):
         # 更新时间
 
     def update_odom(self):
-        current_time = self.get_clock().now()# + rclpy.time.Duration(seconds=0.5) 
+        current_time = self.get_clock().now()# - rclpy.time.Duration(seconds=0.04) 
         dt = (current_time - self.last_time).nanoseconds / 1e9  # 计算时间间隔 delta_t
 
         if dt <= 0:
@@ -116,6 +121,7 @@ class DiffDriveController(Node):
 
         # --- A. 获取速度数据 ---
         v_l, v_r = self.driver.get_speed()
+        #v_l, v_r = self.target_speed[0], self.target_speed[1] 
 
         v_l = float(v_l) * self.left_direction  / 60.0 * 2 * math.pi * self.wheel_radius / self.gear_ratio 
         v_r = float(v_r) * self.right_direction / 60.0 * 2 * math.pi * self.wheel_radius / self.gear_ratio 
@@ -190,10 +196,11 @@ class DiffDriveController(Node):
 
             RPM_left = int(omega_left / (2 * math.pi) * 60 * self.gear_ratio * self.left_direction)
             RPM_right = int(omega_right / (2 * math.pi) * 60 * self.gear_ratio * self.right_direction)
-            self.driver.set_speed(RPM_left, 0x01)
-            self.driver.set_speed(RPM_right, 0x02)
+            self.driver.set_speed(RPM_left, self.left_id)
+            self.driver.set_speed(RPM_right, self.right_id)
             #self.driver.set_speed(RPM_right, 0x02)
             self.get_logger().info(f'Cmd: vx={vx:.2f}, wz={wz:.2f} → L={RPM_left}, R={RPM_right}')
+            self.target_speed=[RPM_left, RPM_right]
         except Exception as e:
             self.get_logger().error(f'Write Error occur')
             self.get_logger().error(e)

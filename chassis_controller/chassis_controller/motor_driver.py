@@ -3,7 +3,7 @@
 # Email: lizhenghao@shanghaitech.edu.cn
 # Institute: SIST
 # Created: 2026-01-14
-# Last Modified: 2026-01-14
+# Last Modified: 2026-05-21
 # Description: AQMD6008NS-TBE Driver
 
 from pymodbus.client import ModbusSerialClient as ModbusClient
@@ -28,10 +28,10 @@ class MotorState():
         return self.__repr__()
 
 class Driver():
-    def __init__(self, serialPort):
+    def __init__(self, serialPort, ids = [0x02, 0x01]):
         self.thread_rd_run = 0
         self.client = ModbusClient(serialPort, parity='E', baudrate=115200, timeout=1)
-        self.motors = (MotorState(0x01), MotorState(0x02))
+        self.motors = (MotorState(ids[0]), MotorState(ids[1]))
         
         #连接到 Modbus 从站
         if not self.client.connect():
@@ -39,16 +39,29 @@ class Driver():
             sys.exit(-1)
 
         time.sleep(0.5)
-        self.init_device(0x01)
+        self.init_device(ids[0])
         time.sleep(0.5)
-        self.init_device(0x02)
+        self.init_device(ids[1])
         time.sleep(0.5)
         self.thread_rd_run = 1
-        thread_rd = threading.Thread(target=self.read_from_modbus, daemon=False)
-        thread_rd.start()
+        #thread_rd = threading.Thread(target=self.read_from_modbus, daemon=False)
+        #thread_rd.start()
 
 
     def get_speed(self):
+        try:
+            spdRes0 = self.client.read_holding_registers(0x001e, count=2, device_id = self.motors[0].id)
+            data = struct.pack('>HH', spdRes0.registers[0], spdRes0.registers[1])
+            self.motors[0].set_speed(struct.unpack('>i', data)[0])
+
+            spdRes1 = self.client.read_holding_registers(0x001e, count=2, device_id = self.motors[1].id)
+            data = struct.pack('>HH', spdRes1.registers[0], spdRes1.registers[1])
+            self.motors[1].set_speed(struct.unpack('>i', data)[0])
+        except Exception as e:
+            print("Read Error Occur")
+            print(e)
+            sys.exit(-1)
+
         return self.motors[0].speed, self.motors[1].speed
 
     def init_device(self, ID):

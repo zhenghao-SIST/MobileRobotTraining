@@ -231,6 +231,7 @@ class SLlidarNode : public rclcpp::Node
         scan_msg->intensities.resize(node_count);
         scan_msg->ranges.resize(node_count);
 
+	/*
 	// 1. 计算偏移量：旋转 180 度对应的索引步数
         size_t offset_180 = node_count / 2;
         
@@ -250,8 +251,8 @@ class SLlidarNode : public rclcpp::Node
         
             scan_msg->intensities[i] = (float)(nodes[rotated_idx].quality >> 2);
         }
+	*/
 
-	/*
         bool reverse_data = (!inverted && reversed) || (inverted && !reversed);
         if (!reverse_data) {
             for (size_t i = 0; i < node_count; i++) {
@@ -272,7 +273,6 @@ class SLlidarNode : public rclcpp::Node
                 scan_msg->intensities[node_count-1-i] = (float) (nodes[i].quality >> 2);
             }
         }
-	*/
 
         pub->publish(*scan_msg);
     }

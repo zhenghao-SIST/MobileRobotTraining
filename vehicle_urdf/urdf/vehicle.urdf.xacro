@@ -8,13 +8,13 @@
   <link name="base_link">
     <visual>
       <geometry>
-        <box size="0.3 0.13 0.003"/>
+        <box size="0.2707 0.18 0.005"/>
       </geometry>
       <material name="blue"/>
     </visual>
     <collision>
       <geometry>
-        <box size="0.3 0.13 0.003"/>
+        <box size="0.2707 0.18 0.005"/>
       </geometry>
     </collision>
     <!--
@@ -39,14 +39,14 @@
   <link name="left_wheel">
     <visual>
       <origin rpy="1.5708 0 0" xyz="0 0 0"/> <geometry>
-        <cylinder radius="0.045" length="0.04"/>
+        <cylinder radius="0.0325" length="0.033"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
       <origin rpy="1.5708 0 0" xyz="0 0 0"/>
       <geometry>
-        <cylinder radius="0.045" length="0.03"/>
+        <cylinder radius="0.0325" length="0.033"/>
       </geometry>
     </collision>
     <inertial>
@@ -58,21 +58,21 @@
   <joint name="left_wheel_joint" type="continuous">
     <parent link="base_link"/>
     <child link="left_wheel"/>
-    <origin xyz="-0.1 0.09 -0.0165" rpy="0 0 0"/> <axis xyz="0 1 0"/>
+    <origin xyz="-0.10285 0.109 -0.0165" rpy="0 0 0"/> <axis xyz="0 1 0"/>
   </joint>
 
   <link name="right_wheel">
     <visual>
       <origin rpy="1.5708 0 0" xyz="0 0 0"/>
       <geometry>
-        <cylinder radius="0.045" length="0.04"/>
+        <cylinder radius="0.0325" length="0.033"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
       <origin rpy="1.5708 0 0" xyz="0 0 0"/>
       <geometry>
-        <cylinder radius="0.045" length="0.04"/>
+        <cylinder radius="0.0325" length="0.033"/>
       </geometry>
     </collision>
     <inertial>
@@ -84,7 +84,7 @@
   <joint name="right_wheel_joint" type="continuous">
     <parent link="base_link"/>
     <child link="right_wheel"/>
-    <origin xyz="-0.1 -0.09 -0.0165" rpy="0 0 0"/> <axis xyz="0 1 0"/>
+    <origin xyz="-0.10285 -0.109 -0.0165" rpy="0 0 0"/> <axis xyz="0 1 0"/>
   </joint>
 
   <link name="caster_wheel">
@@ -96,7 +96,7 @@
     </visual>
     <collision>
       <geometry>
-        <sphere radius="0.03"/>
+        <sphere radius="0.025"/>
       </geometry>
     </collision>
     <inertial>
@@ -109,6 +109,56 @@
     <parent link="base_link"/>
     <child link="caster_wheel"/>
     <origin xyz="0.072 0 -0.0315" rpy="0 0 0"/>
+  </joint>
+
+    <link name="laser_cylinder_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/> <geometry>
+        <cylinder radius="0.008" length="0.066"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.008" length="0.066"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.00037" ixy="0" ixz="0" iyy="0.00037" iyz="0" izz="0.000625"/>
+    </inertial>
+  </link>
+
+  <joint name="laser_cylinder_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="laser_cylinder_link"/>
+    <origin xyz="-0.01935 0 0.0355" rpy="0 0 0"/> <axis xyz="0 1 0"/>
+  </joint>
+
+      <link name="laser_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/> <geometry>
+        <cylinder radius="0.025" length="0.018"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.025" length="0.018"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.00037" ixy="0" ixz="0" iyy="0.00037" iyz="0" izz="0.000625"/>
+    </inertial>
+  </link>
+
+  <joint name="laser_joint" type="fixed">
+    <parent link="laser_cylinder_link"/>
+    <child link="laser_link"/>
+    <origin xyz="0 0 0.042" rpy="0 0 0"/> <axis xyz="0 1 0"/>
   </joint>
 
   <gazebo>
