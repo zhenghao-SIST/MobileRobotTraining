@@ -39,3 +39,7 @@ run install script
 ``` bash
 ./install_orangepi_ros2.sh
 ```
+To avoid signal interference, each group must use the following command to set a unique Domain ID:
+```
+echo 'export ROS_DOMAIN_ID={Your group ID}' >> ~/.bashrc
+```
