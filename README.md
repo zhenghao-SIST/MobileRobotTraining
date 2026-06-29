@@ -35,17 +35,7 @@ rviz2 -d $(ros2 pkg prefix nav2_bringup)/share/nav2_bringup/rviz/nav2_default_vi
 ### sllidar_ros2
 
 ## Prerequsite
+run install script
 ``` bash
-sudo apt install python3-colcon-common-extensions
-sudo apt install ros-humble-xacro
-sudo apt install ros-humble-joint-state-publisher-gui
-sudo apt install ros-humble-slam-toolbox
-sudo apt install ros-humble-navigation2 ros-humble-nav2-bringup
-
-# Install pymodbus
-sudo apt install python3-pip
-sudo apt remove brltty
-pip install pymodbus
-pip install pyserial
+./install_orangepi_ros2.sh
 ```
-
